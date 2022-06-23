@@ -1,0 +1,63 @@
+﻿@page "/"
+
+<PageTitle>Index</PageTitle>
+
+<h1>Compile Error CS1662</h1>
+
+@{
+    List<string> rows = new List<string> {"Row 1","Row 2"};
+    bool thisBooleanExists = true;
+}
+<span>
+    Step 1<br />
+    <br />
+    Compile Program:  <br />
+    &nbsp;&nbsp;&nbsp;&nbsp;Expected Result: Successful Compile<br />
+    <br />
+    Step 2<br />
+    <br />
+    Uncomment <b>SurveyPrompt</b> (Last Line), Compile Program:<br />
+    &nbsp;&nbsp;&nbsp;&nbsp;Expected Result: CS0103 The name 'misspeltVariable' does not exist in the current context<br />
+    &nbsp;&nbsp;&nbsp;&nbsp;Actual Result: CS0103 The name 'misspeltVariable' does not exist in the current context<br />
+    <br />
+    Step 3<br />
+    <br />
+    Delete <b>SurveyPrompt</b>(Last Line) or Comment out<br />
+    <br />
+    Step 3a<br />
+    <br />
+    Uncomment lines starting: <b>if(misspeltVariable)</b>:<br />
+    &nbsp;&nbsp;&nbsp;&nbsp;Expected Result: CS0103 The name 'misspeltVariable' does not exist... <br />
+    &nbsp;&nbsp;&nbsp;&nbsp;<b>Actual Result: CS1662 Cannot convert lambda expression... </b><br />
+    <br />
+    <b>Question</b><br />
+    <br />
+    Why does this generate a "Cannot convert lambda expression to intended delegate type... in app_razor.g.cs"?<br />
+    rather than a CS0103 The name 'misspeltVariable' does not exist in the current context<br />
+    <br />
+    <b>Table Rows shown below:</b>
+</span>
+
+<MudBlazor.MudTable Items="@rows">
+    <RowTemplate>
+        <MudBlazor.MudTd>
+            @if(thisBooleanExists)   // This compiles 
+            {
+                <span>@context</span>
+            }
+@*          // BEGIN UNCOMMENTING LINES
+            @if(misspeltVariable)    // This generates a (IMHO an incorrect) CS1662 Cannot convert lambda expression to intended delegate type... in app_razor.g.cs
+            {
+                <span>@context</span>
+            }
+            // STOP UNCOMMENTING  LINES
+*@
+        </MudBlazor.MudTd>
+    </RowTemplate>
+</MudBlazor.MudTable>
+
+@*<SurveyPrompt Title="@incorrectlySpeltString" />  // This generates a (IMHO a correct) CS0103 The name 'incorrectlySpeltString' does not exist in the current context
+*@
+
+
+
